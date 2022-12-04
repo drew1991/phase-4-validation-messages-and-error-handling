@@ -133,24 +133,20 @@ function MovieForm() {
 })
 ```
 
-We'll also want to [conditionally display][inline-if] the errors in the JSX
-being returned from our component:
+We'll also want to conditionally display the errors in the JSX being returned
+from our component:
 
 ```jsx
-// In the JSX returned by MovieForm:
-
-<form onSubmit={handleSubmit}>
-  {/* rest of form elements here... */}
-
-  {errors.length > 0 && (
+// somewhere in the JSX returned by MovieForm
+{
+  errors.length > 0 && (
     <ul style={{ color: "red" }}>
       {errors.map((error) => (
         <li key={error}>{error}</li>
       ))}
     </ul>
-  )}
-  <SubmitButton type="submit">Add Movie</SubmitButton>
-</form>
+  );
+}
 ```
 
 Now the user should see the error messages on the form when it doesn't pass our
@@ -183,7 +179,7 @@ function handleSubmit(e) {
 In particular, working with the `response` object and the Promise chaining
 required to read the JSON data from the response isn't particularly elegant.
 
-One way we can clean this up is using the [`async/await`][async-await] syntax:
+One way we can clean this up is using the [`async/await`][async await] syntax:
 
 ```js
 // make the function async to enable the await keyword
@@ -214,29 +210,20 @@ do with that data based on whether or not the response was `ok`.
 
 ## Conclusion
 
-To handle server-side validations, we can leverage Active Record to check our
+To handle server side validations, we can leverage Active Record to check our
 model's validity before saving bad data to the database. We can also send back
 different response data with different status codes from our controller actions
 based on the validity of our data.
 
 To help our users correct these validation errors, we need to show them the
-error messages from the server. We can write some conditional code to handle
-successful vs unsuccessful responses from the server. In a React application, we
-can then use state to hold the error messages and render them somewhere on the
-form using JSX.
-
-## Check For Understanding
-
-Before you move on, make sure you can answer the following questions:
-
-1. How can we differentiate between a successful and unsuccessful response using
-   `fetch`?
-2. Why might it be important to display validation error messages to our users?
+error messages from the server. We can leverage the `response.ok` property to
+decide how to handle successful vs unsuccessful responses from the server. In a
+React application, we can then use state to hold the error messages and render
+them somewhere on the form using JSX.
 
 ## Resources
 
 - [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#checking_that_the_fetch_was_successful)
-- [async/await][async-await]
+- [async/await][async await]
 
-[async-await]: https://javascript.info/async-await
-[inline-if]: https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator
+[async await]: https://javascript.info/async-await
